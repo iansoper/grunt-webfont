@@ -29,17 +29,19 @@ f.em = 512
 f.ascent = 448
 f.descent = 64
 
+# Add valid space glyph
+glyph = f.createChar(32)
+glyph.width = 200
+
 m = hashlib.md5()
 cp = int(args.start_codepoint, 16)
 
 KERNING = 15
 
-
 def empty_char(f, c):
 	pen = f.createChar(ord(c), c).glyphPen()
 	pen.moveTo((0, 0))
 	pen = None
-
 
 if args.ligatures:
 	f.addLookup('liga', 'gsub_ligature', (), (('liga', (('latn', ('dflt')), )), ))
@@ -82,6 +84,7 @@ for dirname, dirnames, filenames in os.walk(args.input_dir):
 			cp += 1
 
 		f.autoWidth(0, 0, 512)
+
 
 fontfile = args.output_dir + os.path.sep + args.font
 if args.hashes:
